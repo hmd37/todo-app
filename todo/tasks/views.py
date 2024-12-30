@@ -1,14 +1,18 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+
 from .models import ToDoList, Task
 from .forms import ToDoListForm, TaskForm
-from django.http import JsonResponse
+
 
 # 🚀 To-Do List Views
 class ToDoListView(View):
     def get(self, request):
         if not request.user.is_authenticated:
-            return render(request, 'tasks/todolist.html', {'todolists': None})
+            return render(request, 
+                          'tasks/todolist.html', 
+                          {'todolists': None})
         
         todolists = ToDoList.objects.filter(user=request.user)
         return render(request, 'tasks/todolist.html', {'todolists': todolists})
@@ -17,7 +21,10 @@ class ToDoListDetailView(View):
     def get(self, request, pk):
         todolist = get_object_or_404(ToDoList, pk=pk, user=request.user)
         tasks = todolist.tasks.all()
-        return render(request, 'tasks/todolist_detail.html', {'todolist': todolist, 'tasks': tasks})
+        return render(request, 
+                      'tasks/todolist_detail.html', 
+                      {'todolist': todolist, 
+                       'tasks': tasks})
 
 class ToDoListCreateView(View):
     def get(self, request):
@@ -60,7 +67,9 @@ class TaskListView(View):
     def get(self, request, pk):
         todolist = get_object_or_404(ToDoList, pk=pk, user=request.user)
         tasks = Task.objects.filter(todo_list=todolist)
-        return render(request, 'tasks/tasklist.html', {'todolist': todolist, 'tasks': tasks})
+        return render(request, 'tasks/tasklist.html', 
+                      {'todolist': todolist, 
+                       'tasks': tasks})
 
 class TaskDetailView(View):
     def get(self, request, pk):
@@ -71,7 +80,10 @@ class TaskCreateView(View):
     def get(self, request, pk):
         form = TaskForm()
         tasks = Task.objects.filter(todo_list__pk=pk)
-        return render(request, 'tasks/task_form.html', {'form': form, 'tasks': tasks, 'pk': pk})
+        return render(request, 'tasks/task_form.html', 
+                      {'form': form, 
+                       'tasks': tasks, 
+                       'pk': pk})
     
     def post(self, request, pk):
         todolist = get_object_or_404(ToDoList, pk=pk, user=request.user)
@@ -82,7 +94,7 @@ class TaskCreateView(View):
             task.save()
             return JsonResponse({
                 'name': task.title,
-                'status': task.get_status_display(),  # Assuming you have choices for the status
+                'status': task.get_status_display(),
             })
         return JsonResponse({'errors': form.errors}, status=400)
 

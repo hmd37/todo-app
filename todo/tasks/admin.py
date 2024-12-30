@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import ToDoList, Task
 
 
@@ -19,7 +20,6 @@ class TaskAdmin(admin.ModelAdmin):
         if obj.completed:
             obj.status = 'Completed'
         else:
-            # Only update status if it's currently marked as Completed
             if obj.status == 'Completed':
                 obj.status = 'Pending'
         super().save_model(request, obj, form, change)

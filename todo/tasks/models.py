@@ -13,7 +13,7 @@ class ToDoList(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['created_at']
+        ordering = ['-created_at']
 
 class Task(models.Model):
     STATUS_CHOICES = [

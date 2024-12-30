@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+
 from .models import ToDoList, Task
 
 
@@ -12,7 +13,6 @@ class ToDoListForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'List Description'}),
         }
 
-# Task Form
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task

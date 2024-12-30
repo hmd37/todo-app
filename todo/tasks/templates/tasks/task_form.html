@@ -8,7 +8,6 @@
       {{ form.as_p }}
       <button type="submit" class="btn submit-btn">{% if form.instance.pk %}Update{% else %}Save{% endif %}</button>
     </form>
-    {% comment %} <a href="{% if form.instance.pk %}{% url 'task-list' pk=form.instance.todo_list.pk %}{% else %}{% url 'task-list' pk=pk %}{% endif %}" class="btn back-btn">← Back to Task List</a> {% endcomment %}
 
     <ul id="task-list">
       {% for task in tasks %}
