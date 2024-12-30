@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    {% if user.is_authenticated %}
+    <h1 class="title">Your To-Do Lists</h1>
+    <div class="list-container">
+      {% for todolist in todolists %}
+        <div class="list-card">
+          <h2 class="list-title">{{ todolist.name }}</h2>
+          <p class="list-description">{{ todolist.description }}</p>
+          <a href="{% url 'todolist-detail' todolist.id %}" class="btn">View Details</a>
+        </div>
+      {% empty %}
+        <p class="no-items">No To-Do lists found. Start by creating one!</p>
+      {% endfor %}
+    </div>
+    <a href="{% url 'todolist-create' %}" class="btn create-btn">+ Create New List</a>
+    {% else %}
+      <div class="auth-message">
+        <h2>Please Log In to Access Your To-Do Lists</h2>
+        <a href="{% url 'accounts:login' %}" class="btn login-btn">Log In</a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .list-card {
+    background-color: #2c2c3a;
+    padding: 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+  }
+
+  .list-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .list-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .list-description {
+    font-size: 0.9rem;
+    color: #c9c9d9;
+    margin: 0.5rem 0;
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    background-color: #6272a4;
+    color: #f8f8f2;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+
+  .btn:hover {
+    background-color: #44475a;
+  }
+
+  .create-btn {
+    margin-top: 1.5rem;
+    display: block;
+    text-align: center;
+  }
+
+  .no-items {
+    text-align: center;
+    color: #6272a4;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Register a new user
+{% endblock %}
+
+{% block content %}
+    <div class="auth-container">
+        <h1 class="auth-title">Register a New Account</h1>
+        <form class="form-with-validation" action="{% url 'accounts:register' %}" method="post">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            <button class="form-submit">Register</button>
+        </form>
+        <p class="auth-text">
+            Already have an account? 
+            <a href="{% url 'accounts:login' %}" class="auth-link">Login here</a>
+        </p>
+    </div>
+{% endblock %}
+{% block extra_css %}
+<style>
+    .auth-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #1e1e2e;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+    
+    .auth-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #cdd6f4;
+    }
+    
+    .form-with-validation {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .form-fields p {
+        margin: 0;
+        color: #cdd6f4;
+    }
+    
+    .form-fields input,
+    .form-fields select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        border-radius: 4px;
+        border: 1px solid #6c757d;
+        background: #45475a;
+        color: #cdd6f4;
+    }
+    
+    .form-submit {
+        background: #89b4fa;
+        color: #1e1e2e;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+    
+    .form-submit:hover {
+        background: #74c7ec;
+    }
+    
+    .auth-text {
+        margin-top: 15px;
+        font-size: 14px;
+        color: #cdd6f4;
+    }
+    
+    .auth-link {
+        color: #89b4fa;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .auth-link:hover {
+        text-decoration: underline;
+    }
+    
+</style>
+{% endblock extra_css %}

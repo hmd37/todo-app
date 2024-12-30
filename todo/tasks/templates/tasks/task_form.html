@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1 class="title">{% if form.instance.pk %}Update Task{% else %}Create Task{% endif %}</h1>
+    <form method="post" class="form-container" id="task-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn submit-btn">{% if form.instance.pk %}Update{% else %}Save{% endif %}</button>
+    </form>
+    {% comment %} <a href="{% if form.instance.pk %}{% url 'task-list' pk=form.instance.todo_list.pk %}{% else %}{% url 'task-list' pk=pk %}{% endif %}" class="btn back-btn">← Back to Task List</a> {% endcomment %}
+
+    <ul id="task-list">
+      {% for task in tasks %}
+          <li>{{ task.title }} - {{ task.status }}</li>
+      {% endfor %}
+    </ul>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+        $('#task-form').submit(function (event) {
+            event.preventDefault();  // Prevent form from submitting normally
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "task-create" pk=pk %}',  // URL for your task creation view
+                data: $(this).serialize(),  // Serialize the form data
+                success: function (response) {
+                    // Append the new task to the list
+                    $('#task-list').append('<li>' + response.name + ' - ' + response.status + '</li>');
+                    
+                    // Optionally clear the form for a new entry
+                    $('#task-form')[0].reset();
+                },
+                error: function () {
+                    alert('Error adding task!');
+                }
+            });
+        });
+    });
+  </script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .form-container {
+    margin-top: 1rem;
+    background-color: #2c2c3a;
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+
+  .form-container label {
+    color: #f8f8f2;
+    font-weight: bold;
+  }
+
+  .form-container input,
+  .form-container textarea,
+  .form-container select {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: none;
+    background-color: #44475a;
+    color: #f8f8f2;
+  }
+
+  .submit-btn {
+    background-color: #50fa7b;
+    color: #1e1e2e;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+  }
+
+  .back-btn {
+    margin-top: 1.5rem;
+    display: inline-block;
+  }
+</style>
+{% endblock %}
