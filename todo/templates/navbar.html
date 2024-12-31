@@ -3,6 +3,83 @@
         <a href="{% url 'todolist-list' %}" style="text-decoration: none; color: inherit;">📝 To-Do App</a>
     </div>
     <div class="menu">
-        <li><a href="{% url 'calendar-view' %}" class="nav-link">📅 Calendar</a></li>
+        <a href="{% url 'calendar-view' %}" class="nav-link">📅 Calendar</a>
+        {% if user.is_authenticated %}
+            <span class="welcome-msg">Welcome, {{ user.username }}!</span>
+            <form action="{% url 'accounts:logout' %}" method="post" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="nav-btn logout-btn">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'accounts:login' %}" class="nav-btn">Login</a>
+            <a href="{% url 'accounts:register' %}" class="nav-btn">Register</a>
+        {% endif %}
     </div>
+    
 </nav>
+
+<style>
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #1e1e2e;
+        padding: 10px 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .logo-link {
+        text-decoration: none;
+        font-size: 20px;
+        color: #89b4fa;
+        font-weight: bold;
+    }
+    
+    .menu {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .menu a,
+    .nav-btn {
+        text-decoration: none;
+        color: #cdd6f4;
+        padding: 6px 12px;
+        border-radius: 4px;
+        transition: background 0.3s ease;
+    }
+    
+    .menu a:hover,
+    .nav-btn:hover {
+        background: #45475a;
+    }
+    
+    .logout-form {
+        display: inline;
+        margin: 0;
+    }
+    
+    .logout-btn {
+        background: transparent;
+        border: none;
+        color: #cdd6f4;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 6px 12px;
+        border-radius: 4px;
+        transition: background 0.3s ease;
+    }
+    
+    .logout-btn:hover {
+        background: #f38ba8;
+        color: #1e1e2e;
+    }
+    
+    .welcome-msg {
+        color: #a6e3a1;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+    
+</style>
