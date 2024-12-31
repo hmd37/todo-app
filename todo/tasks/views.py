@@ -1,5 +1,6 @@
 from django.views import View
 from django.http import JsonResponse
+from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import ToDoList, Task
@@ -124,3 +125,35 @@ class TaskDeleteView(View):
         task = get_object_or_404(Task, pk=pk, todo_list__user=request.user)
         task.delete()
         return redirect('task-list', pk=task.todo_list.pk)
+
+from django.http import JsonResponse
+from .models import Task
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def calendar_tasks(request):
+    tasks = Task.objects.filter(todo_list__user=request.user)
+    events = []
+
+    for task in tasks:
+        color = '#6c757d'  # Default gray color
+
+        if task.completed:
+            color = '#28a745'  # Green for completed tasks
+        elif task.status == 'In Progress':
+            color = '#ffc107'  # Yellow for in-progress tasks
+        elif task.status == 'Pending':
+            color = '#dc3545'  # Red for pending tasks
+
+        events.append({
+            'title': task.title,
+            'start': task.due_date.isoformat() if task.due_date else None,
+            'url': reverse('task-update', kwargs={'pk': task.pk}),
+            'color': color,
+        })
+
+    return JsonResponse(events, safe=False)
+
+@login_required
+def calendar_view(request):
+    return render(request, 'tasks/calendar.html')

@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}To-Do App{% endblock %}</title>
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.min.css" rel="stylesheet" />
+
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
     <style>
         /* Global Styles */
+        /* Calendar Task Colors (optional for clarity) */
+            .fc-event {
+                color: #fff; /* White text for better readability */
+                border: none;
+            }
+
         :root {
             --bg-color: #1e1e2e;
             --card-bg: #2c2c3a;

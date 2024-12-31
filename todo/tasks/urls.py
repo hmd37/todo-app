@@ -6,6 +6,8 @@ from .views import (
 
     TaskListView, TaskCreateView, 
     TaskUpdateView, TaskDeleteView,
+
+    calendar_view, calendar_tasks
 )
 
 
@@ -22,4 +24,7 @@ urlpatterns = [
     path('lists/<int:pk>/tasks/add/', TaskCreateView.as_view(), name='task-create'),
     path('tasks/<int:pk>/edit/', TaskUpdateView.as_view(), name='task-update'),
     path('tasks/<int:pk>/delete/', TaskDeleteView.as_view(), name='task-delete'),
+
+    path('calendar/', calendar_view, name='calendar-view'),
+    path('calendar/tasks/', calendar_tasks, name='calendar-tasks'),
 ]
