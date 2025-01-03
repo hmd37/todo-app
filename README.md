@@ -5,7 +5,8 @@ A simple and user-friendly To-Do application to manage tasks and schedules effic
 ## 📸 **Screenshots**
 
 ### **1. Login Page**
-![Login Page](./Screenshot%202025-01-03%20202320.png)
+![Screenshot 2025-01-03 202320](https://github.com/user-attachments/assets/ae5455ec-71e6-4a88-b1a1-28982ba7f196)
+
 
 ### **2. Dashboard**
 ![Dashboard](./Screenshot%202025-01-03%20202353.png)
