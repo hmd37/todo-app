@@ -1,13 +1,14 @@
 from django.views import View
-from django.http import JsonResponse
 from django.urls import reverse
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import ToDoList, Task
 from .forms import ToDoListForm, TaskForm
 
 
-# 🚀 To-Do List Views
+#To-Do List Views
 class ToDoListView(View):
     def get(self, request):
         if not request.user.is_authenticated:
@@ -18,6 +19,7 @@ class ToDoListView(View):
         todolists = ToDoList.objects.filter(user=request.user)
         return render(request, 'tasks/todolist.html', {'todolists': todolists})
 
+
 class ToDoListDetailView(View):
     def get(self, request, pk):
         todolist = get_object_or_404(ToDoList, pk=pk, user=request.user)
@@ -26,6 +28,7 @@ class ToDoListDetailView(View):
                       'tasks/todolist_detail.html', 
                       {'todolist': todolist, 
                        'tasks': tasks})
+
 
 class ToDoListCreateView(View):
     def get(self, request):
@@ -40,6 +43,7 @@ class ToDoListCreateView(View):
             todolist.save()
             return redirect('todolist-list')
         return render(request, 'tasks/todolist_form.html', {'form': form})
+
 
 class ToDoListUpdateView(View):
     def get(self, request, pk):
@@ -56,6 +60,7 @@ class ToDoListUpdateView(View):
             return redirect('todolist-list')
         return render(request, 'tasks/todolist_form.html', {'form': form})
 
+
 class ToDoListDeleteView(View):
     def post(self, request, pk):
         todolist = get_object_or_404(ToDoList, pk=pk, user=request.user)
@@ -63,7 +68,7 @@ class ToDoListDeleteView(View):
         return redirect('todolist-list')
 
 
-# 🚀 Task Views
+#Task Views
 class TaskListView(View):
     def get(self, request, pk):
         todolist = get_object_or_404(ToDoList, pk=pk, user=request.user)
@@ -72,10 +77,12 @@ class TaskListView(View):
                       {'todolist': todolist, 
                        'tasks': tasks})
 
+
 class TaskDetailView(View):
     def get(self, request, pk):
         task = get_object_or_404(Task, pk=pk, todo_list__user=request.user)
         return render(request, 'tasks/task_detail.html', {'task': task})
+
 
 class TaskCreateView(View):
     def get(self, request, pk):
@@ -99,6 +106,7 @@ class TaskCreateView(View):
             })
         return JsonResponse({'errors': form.errors}, status=400)
 
+
 class TaskUpdateView(View):
     def get(self, request, pk):
         task = get_object_or_404(Task, pk=pk, todo_list__user=request.user)
@@ -113,6 +121,7 @@ class TaskUpdateView(View):
             return redirect('task-list', pk=task.todo_list.pk)
         return render(request, 'tasks/task_form.html', {'form': form})
 
+
 class TaskDeleteView(View):
     def get(self, request, pk):
         task = get_object_or_404(Task, pk=pk, todo_list__user=request.user)
@@ -126,9 +135,6 @@ class TaskDeleteView(View):
         task.delete()
         return redirect('task-list', pk=task.todo_list.pk)
 
-from django.http import JsonResponse
-from .models import Task
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def calendar_tasks(request):
@@ -139,11 +145,11 @@ def calendar_tasks(request):
         color = '#6c757d'  # Default gray color
 
         if task.completed:
-            color = '#28a745'  # Green for completed tasks
+            color = '#28a745'  # Green 
         elif task.status == 'In Progress':
-            color = '#ffc107'  # Yellow for in-progress tasks
+            color = '#ffc107'  # Yellow 
         elif task.status == 'Pending':
-            color = '#dc3545'  # Red for pending tasks
+            color = '#dc3545'  # Red 
 
         events.append({
             'title': task.title,
