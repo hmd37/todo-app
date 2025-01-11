@@ -6,7 +6,7 @@ set -o errexit
 pipenv install --deploy --ignore-pipfile
 
 # Activate Pipenv environment
-pipenv run python todo/manage.py collectstatic --no-input
+
 pipenv run python todo/manage.py migrate
 
 # Create superuser if environment variables are set
