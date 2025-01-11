@@ -12,7 +12,7 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 pipenv install --deploy --ignore-pipfile
 
 # Collect static files (if needed)
-pipenv run python manage.py collectstatic --no-input
+
 
 # Apply database migrations
 pipenv run python manage.py migrate
