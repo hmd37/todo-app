@@ -2,16 +2,19 @@
 # exit on error
 set -o errexit
 
+# Ensure the Python path includes the outer 'todo' directory
+export PYTHONPATH=$PYTHONPATH:$(pwd)
+
 # Install dependencies using Pipenv
 pipenv install --deploy --ignore-pipfile
 
 # Activate Pipenv environment
 
-pipenv run python todo/manage.py migrate
+pipenv run python manage.py migrate
 
 # Create superuser if environment variables are set
 if [[ $CREATE_SUPERUSER ]]; then
-  pipenv run python todo/manage.py createsuperuser \
+  pipenv run python manage.py createsuperuser \
     --no-input \
     --email "$DJANGO_SUPERUSER_EMAIL" \
     --username "$DJANGO_SUPERUSER_USERNAME"
