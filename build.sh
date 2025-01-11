@@ -3,10 +3,10 @@
 set -o errexit
 
 # Change to the outer 'todo' directory (where manage.py is located)
-cd $(pwd)/todo
+
 
 # Ensure the Python path includes the outer 'todo' directory
-export PYTHONPATH=$PYTHONPATH:$(pwd)
+
 
 # Install dependencies using Pipenv
 pipenv install --deploy --ignore-pipfile
