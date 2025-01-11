@@ -9,6 +9,7 @@ django-defender = "*"
 hiredis = "*"
 pyopenssl = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [dev-packages]
 
