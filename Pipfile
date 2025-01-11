@@ -8,6 +8,7 @@ django = "*"
 django-defender = "*"
 hiredis = "*"
 pyopenssl = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
