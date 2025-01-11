@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# exit on error
+# Exit on error
 set -o errexit
+
+# Change to the outer 'todo' directory (where manage.py is located)
+cd $(pwd)/todo
 
 # Ensure the Python path includes the outer 'todo' directory
 export PYTHONPATH=$PYTHONPATH:$(pwd)
@@ -8,11 +11,13 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 # Install dependencies using Pipenv
 pipenv install --deploy --ignore-pipfile
 
-# Activate Pipenv environment
+# Collect static files (if needed)
+pipenv run python manage.py collectstatic --no-input
 
+# Apply database migrations
 pipenv run python manage.py migrate
 
-# Create superuser if environment variables are set
+# Create a superuser if environment variables are set
 if [[ $CREATE_SUPERUSER ]]; then
   pipenv run python manage.py createsuperuser \
     --no-input \
