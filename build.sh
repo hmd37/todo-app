@@ -11,5 +11,8 @@ pipenv run python todo/manage.py migrate
 
 # Create superuser if environment variables are set
 if [[ $CREATE_SUPERUSER ]]; then
-  pipenv run python todo/manage.py createsuperuser --no-input --email "$DJANGO_SUPERUSER_EMAIL"
+  pipenv run python todo/manage.py createsuperuser \
+    --no-input \
+    --email "$DJANGO_SUPERUSER_EMAIL" \
+    --username "$DJANGO_SUPERUSER_USERNAME"
 fi
